@@ -105,17 +105,50 @@ sap.ui.define([
 				return;
 			}
 			this._bMessageOpen = true;
-			MessageBox.error(
-				this._sErrorText, {
-					id: "serviceErrorMessageBox",
-					details: sDetails.responseText,
-					styleClass: this._oComponent.getContentDensityClass(),
-					actions: [MessageBox.Action.CLOSE],
-					onClose: function() {
-						this._bMessageOpen = false;
-					}.bind(this)
+
+			var tt = sDetails.responseText;
+			var sMsg = "";
+			var xx = tt.search("E11GUI_MSG:");
+			if (tt.search("EGUI_MSG:") >= 0) {
+				var oMessage = sap.ui.getCore().getMessageManager();
+				var oData = oMessage.getMessageModel().getData();
+				for (var i = 1; i < oData.length; i++) {
+				
+					var lMsg = oData[i].message;
+					if (lMsg.search("EGUI_MSG:") >= 0) {
+						lMsg = lMsg.substr(9, 30);
+						sMsg = sMsg + "  " + lMsg;
+
+					} else {
+						lMsg = "";
+					}
 				}
-			);
+
+				MessageBox.error(
+					"Update error: " + lMsg, {
+						id: "serviceErrorMessageBox",
+						details: sMsg,
+						styleClass: this._oComponent.getContentDensityClass(),
+						actions: [MessageBox.Action.CLOSE],
+						onClose: function() {
+							this._bMessageOpen = false;
+						}.bind(this)
+					}
+				);
+
+			} else {
+				MessageBox.error(
+					this._sErrorText, {
+						id: "serviceErrorMessageBox",
+						details: sDetails.responseText,
+						styleClass: this._oComponent.getContentDensityClass(),
+						actions: [MessageBox.Action.CLOSE],
+						onClose: function() {
+							this._bMessageOpen = false;
+						}.bind(this)
+					}
+				);
+			}
 		}
 	});
 

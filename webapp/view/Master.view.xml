@@ -24,7 +24,9 @@
 				</infoToolbar>
 				<items>
 					<ObjectListItem type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange" title="{Guino}"
-						number="{ path: 'Basamt', formatter: '.formatter.currencyValue' }"></ObjectListItem>
+						 number="{ parts: [ {path: 'Basamt'}, {path: 'Waers'} ],  type: 'sap.ui.model.type.Currency',  formatOptions: {   currencyCode: true  } }">
+						
+					</ObjectListItem>
 				</items>
 			</List>
 		</semantic:content>

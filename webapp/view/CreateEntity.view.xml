@@ -52,23 +52,23 @@
 					<Input name="Kunnr" id="Kunnr_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="true"
 						value="{ path: 'Kunnr', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:10, nullable:false } }"/>
-					<Label text="Buyer Name" required="true"/>
-					<Input name="Name1" id="Name1_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
+					<Label text="Buyer Name" />
+					<Input name="Name1" id="Name1_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" 
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="true"
 						value="{ path: 'Name1', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:70, nullable:false } }"/>
-					<Label text="LC Base" required="true"/>
-					<Input name="Basamt" id="Basamt_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
+					<Label text="LC Base" />
+					<Input name="Basamt" id="Basamt_id" valueLiveUpdate="true" 
 						enabled="{= ${Status} !== 'E01'? true: false}" visible="true"
-						value="{ path: 'Basamt', type: 'sap.ui.model.odata.type.Decimal' , constraints:{ precision:24, scale:3, nullable:false } }"/>
-					<Label text="LC Tax" required="true"/>
-					<Input name="Taxamt" id="Taxamt_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
+						value="{ path: 'Basamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+					<Label text="LC Tax" />
+					<Input name="Taxamt" id="Taxamt_id" valueLiveUpdate="true" 
 						enabled="{= ${Status} !== 'E01'? true: false}" visible="true"
-						value="{ path: 'Taxamt', type: 'sap.ui.model.odata.type.Decimal' , constraints:{ precision:24, scale:3, nullable:false } }"/>
-					<Label text="Amount in LC" required="true"/>
-					<Input name="Tolamt" id="Tolamt_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
+						value="{ path: 'Taxamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+					<Label text="Amount in LC" />
+					<Input name="Tolamt" id="Tolamt_id" valueLiveUpdate="true" 
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="false"
-						value="{ path: 'Tolamt', type: 'sap.ui.model.odata.type.Decimal' , constraints:{ precision:24, scale:3, nullable:false } }"/>
-					<Label text="Currency" required="true"/>
+						value="{ path: 'Tolamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+					<Label text="Currency" />
 					<Input name="Waers" id="Waers_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="true"
 						value="{ path: 'Waers', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:5, nullable:false } }"/>

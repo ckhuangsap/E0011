@@ -46,7 +46,7 @@ sap.ui.define([
 			sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
 			var oMessagesModel = sap.ui.getCore().getMessageManager().getMessageModel();
 			this._oBinding = new sap.ui.model.Binding(oMessagesModel, "/", oMessagesModel.getContext("/"));
-		
+
 			this._oBinding.attachChange(function(oEvent) {
 				var aMessages = oEvent.getSource().getModel().getData();
 				for (var i = 0; i < aMessages.length; i++) {
@@ -55,7 +55,7 @@ sap.ui.define([
 					}
 				}
 			});
-		
+
 		},
 
 		onExit: function() {
@@ -101,6 +101,7 @@ sap.ui.define([
 		 * @public
 		 */
 		onSave: function() {
+
 			var that = this,
 				oModel = this.getModel();
 
@@ -114,76 +115,23 @@ sap.ui.define([
 				);
 				return;
 			}
-
- 
-
 			this.getModel("appView").setProperty("/busy", true);
 			if (this._oViewModel.getProperty("/mode") === "edit") {
 				// attach to the request completed event of the batch
 				oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
-					
-				var msgtyp = that._oViewModel.getProperty("/submit_mstyp");
-				var msg = that._oViewModel.getProperty("/submit_msg");
-				
 					if (that._checkIfBatchRequestSucceeded(oEvent)) {
+					
 						that._fnUpdateSuccess();
 					} else {
 						
-						
-						
-		 
 						that._fnEntityCreationFailed();
-					////	MessageBox.error(that._oResourceBundle.getText(msg));
-						
-				//			var Bukrs_id = that._oViewModel.getProperty("/Bukrs_id");
-						
-				//	 	     that.getView().byId("Bukrs_id").setValue(Bukrs_id);
-					 	     
-					 	     
+						//	MessageBox.error(that._oResourceBundle.getText("updateError"));
 					}
 				});
 			}
-			
-	//		var Bukrs_id = this.getView().byId("Bukrs_id").getValue();
-	//		that._oViewModel.setProperty("/Bukrs_id", Bukrs_id);
-			
 			oModel.submitChanges();
-/*
-			oModel.submitChanges({
-				success: function(oData) {
-
-					if (oData.__batchResponses[0].message == "HTTP request failed") {
-
-						that._oViewModel.setProperty("/submit_mstyp", "E");
-						that._oViewModel.setProperty("/submit_msg", "HTTP request failed");
-
-					} else {
-						var cc = oData.__batchResponses[0].__changeResponses[0].headers;
-						if (cc.mstyp == 'E') {
-
-							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
-							that._oViewModel.setProperty("/submit_msg", cc.msg);
-					
-	 
-
-						} else if (cc.mstyp == 'S') {
-
-							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
-							that._oViewModel.setProperty("/submit_msg", cc.msg);
-
-						} else {
-							that._oViewModel.setProperty("/submit_mstyp", "E");
-							that._oViewModel.setProperty("/submit_msg", "Update incomplete");
-						}
-					}
-				},
-				error: function(oError) {
-
-					that._oViewModel.setProperty("/submit_mstyp", "E");
-					that._oViewModel.setProperty("/submit_msg", "Error");
-
-				}
-			});*/
+				MessageToast.show("Update finish");
+		
 		},
 
 		_checkIfBatchRequestSucceeded: function(oEvent) {
@@ -200,16 +148,7 @@ sap.ui.define([
 						}
 					}
 				}
-
-				var msgtyp = this._oViewModel.getProperty("/submit_mstyp");
-				var msg = this._oViewModel.getProperty("/submit_msg");
-msgtyp = "E";
-				if (msgtyp == "E") {
-				
-					return false;
-				} else {
-					return true;
-				}
+				return true;
 			} else {
 				return false;
 			}
@@ -325,6 +264,7 @@ msgtyp = "E";
 			for (var m = 0; m < aInputControls.length; m++) {
 				oControl = aInputControls[m].control;
 				if (aInputControls[m].required) {
+			
 					var sValue = oControl.getValue();
 					if (!sValue) {
 						this._oViewModel.setProperty("/enableCreate", false);
@@ -364,7 +304,7 @@ msgtyp = "E";
 		 */
 
 		_checkForErrorMessages: function() {
-			
+
 			var aMessages = this._oBinding.oModel.oData;
 			if (aMessages.length > 0) {
 				var bEnableCreate = true;
