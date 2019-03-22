@@ -10,7 +10,7 @@ sap.ui.define([
 	'sap/m/MessageToast',
 	'sap/ui/core/mvc/Controller'
 
-], function(BaseController, JSONModel, MessageBox, formatter, Filter, FilterOperator, History, Fragment, MessageToast,Controller) {
+], function(BaseController, JSONModel, MessageBox, formatter, Filter, FilterOperator, History, Fragment, MessageToast, Controller) {
 	"use strict";
 
 	return BaseController.extend("ZXDEGUI0011.controller.CreateEntity", {
@@ -31,7 +31,9 @@ sap.ui.define([
 				delay: 0,
 				busy: false,
 				mode: "create",
-				viewTitle: ""
+				viewTitle: "",
+				submit_msg: "",
+				submit_mstyp: ""
 			});
 			this.setModel(this._oViewModel, "viewModel");
 
@@ -48,13 +50,13 @@ sap.ui.define([
 				}
 			});
 		},
-		
-			onExit: function() {
+
+		onExit: function() {
 			if (this._oDialog) {
 				this._oDialog.destroy();
 			}
 		},
-		
+
 		handleTableSelectDialogPress: function(oEvent) {
 			if (!this._oDialog) {
 				this._oDialog = sap.ui.xmlfragment("ZXDEGUI0011.view.BukrsSH", this);
@@ -74,8 +76,8 @@ sap.ui.define([
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
 			this._oDialog.open();
 		},
-		
-			handleSearch: function(oEvent) {
+
+		handleSearch: function(oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter("Bukrs", sap.ui.model.FilterOperator.Contains, sValue);
 			var oBinding = oEvent.getSource().getBinding("items");
@@ -106,42 +108,97 @@ sap.ui.define([
 				return;
 			}
 			this.getModel("appView").setProperty("/busy", true);
-			if (this._oViewModel.getProperty("/mode") === "edit") {
-				// attach to the request completed event of the batch
-				oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
+			//	if (this._oViewModel.getProperty("/mode") === "edit") {
+
+			// attach to the request completed event of the batch
+			oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
+
+				var msgtyp = that._oViewModel.getProperty("/submit_mstyp");
+				var msg = that._oViewModel.getProperty("/submit_msg");
+
+				if (msgtyp == 'E') {
+
+					that._fnEntityCreationFailed();
+					MessageBox.error(msg);
+				} else {
+
+					//	alert("Save succesful");
+
+					///		if (that._checkIfBatchRequestSucceeded(oEvent)) {
+
+						that._fnEntityCreationFailed();
+				//	MessageBox.success(msg);
+					sap.m.MessageToast.show(msg);
+					//		that._fnUpdateSuccess();
+
+					//	that.oDetailDialog.close();
+
+					//	};
+
+				};
+
+				/*
+					
 					if (that._checkIfBatchRequestSucceeded(oEvent)) {
+						 
 						that._fnUpdateSuccess();
+						
+				
+					
+							//	sap.m.MessageToast.show(msg);
+							
+						}else{
+								sap.m.MessageToast.show(msg);
+							
+						};
+						
 					} else {
+					 
 						that._fnEntityCreationFailed();
 						MessageBox.error(that._oResourceBundle.getText("updateError"));
 					}
-				});
-			}
+					*/
+			});
+			//	}
 			oModel.submitChanges({
-				success: function(oData){
-					if(oData._batchResponses[0].message == "HTTP request failed") {
+				success: function(oData) {
+
+					if (oData.__batchResponses[0].message == "HTTP request failed") {
 						that._fnEntityCreationFailed();
-						sap.m.MessageToast.show("Save was unsuccessful:" + JSON.parse(oData._batchResponses[0].response.body).error.message.value)
-					}else{
-						var cc = oData._batchResponses[0]._changeResponses[0].headers;
-						if (cc.mstyp == 'E'){
-							sap.m.MessageToast.show(cc.msg, {autoClose: false});
-							if (that._oViewModel.getProperty("/mode") === "edit"){
-								that._fnEntityCreationFailed();
-							}else{
-								that.getModel("appView").setProperty("/addEnabled", false);
-								that.getRouter().getTargets().display("create");
-							}
-						}else{
-							that._fnUpdateSuccess();
-							sap.m.MessageToast.show(cc.msg);
-							that.oDetailDialog.close();
+
+						that._oViewModel.setProperty("/submit_mstyp", "E");
+						that._oViewModel.setProperty("/submit_msg", "HTTP request failed");
+
+						//		sap.m.MessageToast.show("Save was unsuccessful:" + JSON.parse(oData.__batchResponses[0].response.body).error.message.value);
+					} else {
+						var cc = oData.__batchResponses[0].__changeResponses[0].headers;
+						if (cc.mstyp == 'E') {
+
+							//	sap.m.MessageToast.show(cc.msg, {autoClose: false});
+
+							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
+							that._oViewModel.setProperty("/submit_msg", cc.msg);
+
+						} else if (cc.mstyp == 'S') {
+							//	that._fnUpdateSuccess();
+
+							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
+							that._oViewModel.setProperty("/submit_msg", cc.msg);
+
+							//	that.oDetailDialog.close();
+						} else {
+							that._oViewModel.setProperty("/submit_mstyp", "E");
+							that._oViewModel.setProperty("/submit_msg", "Update incomplete");
 						}
 					}
 				},
-				error: function(oError){
+				error: function(oError) {
+
 					that._fnEntityCreationFailed();
-					sap.m.MessageToast.show("Save was unsuccesful:" + JSON.stringify(oError));
+					//	sap.m.MessageToast.show("Save was unsuccesful:" + JSON.stringify(oError));
+					that._oViewModel.setProperty("/submit_mstyp", "E");
+					that._oViewModel.setProperty("/submit_msg", "Error");
+
 				}
 			});
 		},
@@ -284,8 +341,7 @@ sap.ui.define([
 			}
 			this._checkForErrorMessages();
 		},
-		
-		
+
 		/*		_validateSaveEnablement: function() {
 			var aInputControls = this._getFormFields(this.byId("newEntitySimpleForm"));
 			var oControl;
@@ -307,8 +363,7 @@ sap.ui.define([
 			}
 			this._checkForErrorMessages();
 		},
-		*/	
-		
+		*/
 
 		/**
 		 * Checks if there is any wrong inputs that can not be saved.
