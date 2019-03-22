@@ -8,9 +8,12 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	'sap/ui/core/Fragment',
 	'sap/m/MessageToast',
-	'sap/ui/core/mvc/Controller'
+	'sap/ui/core/mvc/Controller',
+	'sap/m/Dialog',
+	'sap/m/Button'
 
-], function(BaseController, JSONModel, MessageBox, formatter, Filter, FilterOperator, History, Fragment, MessageToast, Controller) {
+], function(BaseController, JSONModel, MessageBox, formatter, Filter, FilterOperator, History, Fragment, MessageToast, Controller, Dialog,
+	Button) {
 	"use strict";
 
 	return BaseController.extend("ZXDEGUI0011.controller.CreateEntity", {
@@ -33,7 +36,9 @@ sap.ui.define([
 				mode: "create",
 				viewTitle: "",
 				submit_msg: "",
-				submit_mstyp: ""
+				submit_mstyp: "",
+				Bukrs_id: "",
+				Guino_id: ""
 			});
 			this.setModel(this._oViewModel, "viewModel");
 
@@ -41,6 +46,7 @@ sap.ui.define([
 			sap.ui.getCore().getMessageManager().registerObject(this.getView(), true);
 			var oMessagesModel = sap.ui.getCore().getMessageManager().getMessageModel();
 			this._oBinding = new sap.ui.model.Binding(oMessagesModel, "/", oMessagesModel.getContext("/"));
+		
 			this._oBinding.attachChange(function(oEvent) {
 				var aMessages = oEvent.getSource().getModel().getData();
 				for (var i = 0; i < aMessages.length; i++) {
@@ -49,6 +55,7 @@ sap.ui.define([
 					}
 				}
 			});
+		
 		},
 
 		onExit: function() {
@@ -107,85 +114,63 @@ sap.ui.define([
 				);
 				return;
 			}
+
+ 
+
 			this.getModel("appView").setProperty("/busy", true);
-			//	if (this._oViewModel.getProperty("/mode") === "edit") {
-
-			// attach to the request completed event of the batch
-			oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
-
+			if (this._oViewModel.getProperty("/mode") === "edit") {
+				// attach to the request completed event of the batch
+				oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
+					
 				var msgtyp = that._oViewModel.getProperty("/submit_mstyp");
 				var msg = that._oViewModel.getProperty("/submit_msg");
-
-				if (msgtyp == 'E') {
-
-					that._fnEntityCreationFailed();
-					MessageBox.error(msg);
-				} else {
-
-					//	alert("Save succesful");
-
-					///		if (that._checkIfBatchRequestSucceeded(oEvent)) {
-
-						that._fnEntityCreationFailed();
-				//	MessageBox.success(msg);
-					sap.m.MessageToast.show(msg);
-					//		that._fnUpdateSuccess();
-
-					//	that.oDetailDialog.close();
-
-					//	};
-
-				};
-
-				/*
-					
-					if (that._checkIfBatchRequestSucceeded(oEvent)) {
-						 
-						that._fnUpdateSuccess();
-						
 				
-					
-							//	sap.m.MessageToast.show(msg);
-							
-						}else{
-								sap.m.MessageToast.show(msg);
-							
-						};
-						
+					if (that._checkIfBatchRequestSucceeded(oEvent)) {
+						that._fnUpdateSuccess();
 					} else {
-					 
+						
+						
+						
+		 
 						that._fnEntityCreationFailed();
-						MessageBox.error(that._oResourceBundle.getText("updateError"));
+					////	MessageBox.error(that._oResourceBundle.getText(msg));
+						
+				//			var Bukrs_id = that._oViewModel.getProperty("/Bukrs_id");
+						
+				//	 	     that.getView().byId("Bukrs_id").setValue(Bukrs_id);
+					 	     
+					 	     
 					}
-					*/
-			});
-			//	}
+				});
+			}
+			
+	//		var Bukrs_id = this.getView().byId("Bukrs_id").getValue();
+	//		that._oViewModel.setProperty("/Bukrs_id", Bukrs_id);
+			
+			oModel.submitChanges();
+/*
 			oModel.submitChanges({
 				success: function(oData) {
 
 					if (oData.__batchResponses[0].message == "HTTP request failed") {
-						that._fnEntityCreationFailed();
 
 						that._oViewModel.setProperty("/submit_mstyp", "E");
 						that._oViewModel.setProperty("/submit_msg", "HTTP request failed");
 
-						//		sap.m.MessageToast.show("Save was unsuccessful:" + JSON.parse(oData.__batchResponses[0].response.body).error.message.value);
 					} else {
 						var cc = oData.__batchResponses[0].__changeResponses[0].headers;
 						if (cc.mstyp == 'E') {
 
-							//	sap.m.MessageToast.show(cc.msg, {autoClose: false});
-
 							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
 							that._oViewModel.setProperty("/submit_msg", cc.msg);
+					
+	 
 
 						} else if (cc.mstyp == 'S') {
-							//	that._fnUpdateSuccess();
 
 							that._oViewModel.setProperty("/submit_mstyp", cc.mstyp);
 							that._oViewModel.setProperty("/submit_msg", cc.msg);
 
-							//	that.oDetailDialog.close();
 						} else {
 							that._oViewModel.setProperty("/submit_mstyp", "E");
 							that._oViewModel.setProperty("/submit_msg", "Update incomplete");
@@ -194,16 +179,15 @@ sap.ui.define([
 				},
 				error: function(oError) {
 
-					that._fnEntityCreationFailed();
-					//	sap.m.MessageToast.show("Save was unsuccesful:" + JSON.stringify(oError));
 					that._oViewModel.setProperty("/submit_mstyp", "E");
 					that._oViewModel.setProperty("/submit_msg", "Error");
 
 				}
-			});
+			});*/
 		},
 
 		_checkIfBatchRequestSucceeded: function(oEvent) {
+
 			var oParams = oEvent.getParameters();
 			var aRequests = oEvent.getParameters().requests;
 			var oRequest;
@@ -216,7 +200,16 @@ sap.ui.define([
 						}
 					}
 				}
-				return true;
+
+				var msgtyp = this._oViewModel.getProperty("/submit_mstyp");
+				var msg = this._oViewModel.getProperty("/submit_msg");
+msgtyp = "E";
+				if (msgtyp == "E") {
+				
+					return false;
+				} else {
+					return true;
+				}
 			} else {
 				return false;
 			}
@@ -371,6 +364,7 @@ sap.ui.define([
 		 */
 
 		_checkForErrorMessages: function() {
+			
 			var aMessages = this._oBinding.oModel.oData;
 			if (aMessages.length > 0) {
 				var bEnableCreate = true;
