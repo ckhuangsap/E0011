@@ -9,9 +9,10 @@ sap.ui.define([
 	"ZXDEGUI0011/model/formatter",
 	"sap/m/MessageBox",
 	"ZXDEGUI0011/model/grouper",
-	"ZXDEGUI0011/model/GroupSortState"
+	"ZXDEGUI0011/model/GroupSortState",
+		"sap/m/MessageToast"
 ], function(BaseController, JSONModel, Filter, FilterOperator, GroupHeaderListItem, Device, formatter, MessageBox, grouper,
-	GroupSortState) {
+	GroupSortState, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("ZXDEGUI0011.controller.Master", {
@@ -461,6 +462,48 @@ sap.ui.define([
 
 			} else return "";
 
+		},
+		
+			onScan: function(){
+			var input = this.byId("searchField"); 
+		    
+
+		try{
+				window.parent.cordova.plugins.barcodeScanner.scan(
+				function(result) {
+				setTimeout(function() { MessageToast.show("We got a barcode\n" +
+                  "Result: " + result.text + "\n" +
+                  "Format: " + result.format + "\n" +
+                  "Cancelled: " + result.cancelled);                            
+		     }, 1000);
+        
+        					input.setValue(result.text);
+					input.fireSearch({
+						refreshButtonPressed: false,
+						query: result.text
+					});
+					
+				},
+				function(error) {
+					 MessageToast.show("Scanning failed: " + error);
+				},
+				    // options object
+		   {
+		        "preferFrontCamera" : false,
+		        "showFlipCameraButton" : true,
+		        "orientation" : "landscape"
+		    }
+				
+				
+				);
+	  }catch(err){
+	  	var error = true;
+	  	 MessageToast.show('error: ' + err.message);
+	  } 
+	  if (error !== true){  MessageToast.show("Start Scan", {
+				closeOnBrowserNavigation : false
+			}); }
+	   
 		},
 		/**
 		 * It navigates to the saved itemToSelect item. After delete it navigate to the next item. 
