@@ -36,10 +36,10 @@
 						number="{ parts: [ {path: 'Tolamt'}, {path: 'Waers'} ], type: 'sap.ui.model.type.Currency', formatOptions: { currencyCode: true } }"
 						numberState="{= ${Status} === 'E01'? 'Error' : 'Success' }" intro="{Guino} {Guifmt} {Status}">
 						<firstStatus>
-							<ObjectStatus title = "FI Doc" text="{ parts: [  {path:'Bukrs'}, {path:'Gjahr'}, {path: 'Belnr'}  ] }"/>
+							<ObjectStatus title = "{BelnrT}" text="{ parts: [  {path:'Bukrs'}, {path:'Gjahr'}, {path: 'Belnr'}  ] }"/>
 						</firstStatus>
 						<secondStatus>
-							<ObjectStatus  title = "GUI date" text="{ parts: [
+							<ObjectStatus  title = "{GuinoT}" text="{ parts: [
 															{path: 'Guidate'}
 														] ,  formatter: '.formatterCountDate' }"/>
 						</secondStatus>

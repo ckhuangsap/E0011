@@ -4,8 +4,11 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"ZXDEGUI0011/model/formatter",
 	"sap/m/MessageBox",
-	"sap/m/MessageToast"
-], function(BaseController, JSONModel, formatter, MessageBox, MessageToast) {
+	"sap/m/MessageToast",
+	'sap/m/Button',
+	'sap/m/Dialog',
+	'sap/m/Text'
+], function(BaseController, JSONModel, formatter, MessageBox, MessageToast, Button, Dialog, Text) {
 	"use strict";
 
 	return BaseController.extend("ZXDEGUI0011.controller.Detail", {
@@ -317,6 +320,55 @@ sap.ui.define([
 			} else return "";
 
 		},
+		onMail: function() {
+	
+			var oModel = this.getModel();
+		
+			var oUuid = this.getView().byId("Uuid_id").getValue();
+		
+			var dialog = new Dialog({
+				title: 'Confirm',
+				type: 'Message',
+				content: new Text({ text: 'Are you sure you want to sent email?' }),
+				beginButton: new Button({
+					text: 'Yes',
+					press: function () {
+						
+						
+						oModel.callFunction("/Sent_Email", {
+								method: "POST",
+								urlParameters: {
+								Uuid: oUuid 
+								},
+								success: function(oData) {
+								},
+								error: function() {
+						
+								}
+							
+							});
+						
+						MessageToast.show('Submit pressed!');
+						dialog.close();
+					}
+				}),
+				endButton: new Button({
+					text: 'No',
+					press: function () {
+						dialog.close();
+					}
+				}),
+				afterClose: function() {
+					dialog.destroy();
+				}
+			});
+
+			dialog.open();
+	
+
+			
+		},
+
 
 		/**
 		 * Deletes the entity from the odata model

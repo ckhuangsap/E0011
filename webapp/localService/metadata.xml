@@ -48,6 +48,7 @@
                 <Property Name="InvPdf" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="pdf for B2C Invoice" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="InvdPdf" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="pdf for B2C Invoice Detail" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Inva4Pdf" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="pdf for B2B Invoice" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="BelnrT" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Belnr text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="PDF" sap:content-version="1">
                 <Key>

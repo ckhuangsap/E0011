@@ -342,13 +342,15 @@ sap.ui.define([
 		 * @private
 		 */
 		_onMasterMatched: function() {
+	
 			this._oListSelector.oWhenListLoadingIsDone.then(
 				function(mParams) {
 					if (mParams.list.getMode() === "None") {
 						return;
 					}
 					this.getModel("appView").setProperty("/addEnabled", true);
-					if (!mParams.list.getSelectedItem()) {
+			      
+					if (!mParams.list.getSelectedItem() ) {
 						this.getRouter().navTo("object", {
 							Uuid: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Uuid")),
 							Bukrs: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Bukrs")),
@@ -356,7 +358,7 @@ sap.ui.define([
 							Belnr: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Belnr")),
 							Buzei: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Buzei"))
 						}, true);
-					}
+					} 
 				}.bind(this),
 				function(mParams) {
 					if (mParams.error) {

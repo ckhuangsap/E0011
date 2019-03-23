@@ -6,10 +6,10 @@
 			<ObjectHeader id="objectHeader" title="{Name1}" number="{ parts: [ {path: 'Tolamt'}, {path: 'Waers'} ], type: 'sap.ui.model.type.Currency', formatOptions: { currencyCode: true } }"
 			numberState="{= ${Status} === 'E01'? 'Error' : 'Success' }" intro="{Guino} {Guifmt} {Status}">
 					<firstStatus>
-							<ObjectStatus title = "FI Doc" text="{ parts: [  {path:'Bukrs'}, {path:'Gjahr'}, {path: 'Belnr'}  ] }"/>
+							<ObjectStatus title = "{BelnrT}" text="{ parts: [  {path:'Bukrs'}, {path:'Gjahr'}, {path: 'Belnr'}  ] }"/>
 						</firstStatus>
 						<secondStatus>
-							<ObjectStatus  title = "GUI date" text="{ parts: [
+							<ObjectStatus  title = "{GuinoT}" text="{ parts: [
 															{path: 'Guidate'}
 														] ,  formatter: '.formatterCountDate' }"/>
 						</secondStatus>
@@ -100,6 +100,11 @@
 		<semantic:customFooterContent>
 			<Button enabled="false" id="deleteButton" press="onDelete" text="Delete"/>
 		</semantic:customFooterContent>
+		
+			<semantic:customFooterContent>
+			<Button enabled="true" id="mailButton" press="onMail" text="Email" icon="sap-icon://email"/>
+		</semantic:customFooterContent>
+		
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
 		</semantic:sendEmailAction>
