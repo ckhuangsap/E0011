@@ -105,7 +105,7 @@ sap.ui.define([
 			var sQuery = oEvent.getParameter("query");
 
 			if (sQuery) {
-				this._oListFilterState.aSearch = [new Filter("Guino", FilterOperator.Contains, sQuery)];
+				this._oListFilterState.aSearch = [new Filter("Uuid", FilterOperator.Contains, sQuery)];
 			} else {
 				this._oListFilterState.aSearch = [];
 			}
@@ -161,6 +161,7 @@ sap.ui.define([
 				this._oViewSettingsDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
 			}
 			this._oViewSettingsDialog.open();
+
 		},
 
 		/**
@@ -173,12 +174,14 @@ sap.ui.define([
 		 * @public
 		 */
 		onConfirmViewSettingsDialog: function(oEvent) {
+
 			var aFilterItems = oEvent.getParameters().filterItems,
 				aFilters = [],
 				aCaptions = [];
-
+			/*
 			// update filter state:
 			// combine the filter array and the filter string
+	
 			aFilterItems.forEach(function(oItem) {
 				switch (oItem.getKey()) {
 					case "Filter1":
@@ -187,11 +190,22 @@ sap.ui.define([
 					case "Filter2":
 						aFilters.push(new Filter("Basamt", FilterOperator.GT, 100));
 						break;
+
 					default:
 						break;
 				}
 				aCaptions.push(oItem.getText());
 			});
+			*/
+			var aContexts = oEvent.getParameter("filterCompoundKeys");
+			var aBukrs = aContexts.Bukrs;
+			for (var kData in aBukrs) {
+				var zCheck = aBukrs[kData];
+				if (zCheck === true) {
+					aFilters.push(new Filter("Bukrs", FilterOperator.EQ, kData));
+					aCaptions.push("Company Code = " + kData);
+				}
+			}
 
 			this._oListFilterState.aFilter = aFilters;
 			this._updateFilterBar(aCaptions.join(", "));
@@ -427,6 +441,27 @@ sap.ui.define([
 			return (sPath.indexOf("/") === 0 ? "" : "/") + sPath;
 		},
 
+		formatterCountDate: function(value) {
+
+			if ((value != null) && (value != "0000-00-00"))
+
+			{
+
+				if (value) {
+
+					var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+						pattern: "yyyy/MM/dd"
+					});
+
+					return oDateFormat.format(new Date(value));
+
+				} else {
+					return value;
+				}
+
+			} else return "";
+
+		},
 		/**
 		 * It navigates to the saved itemToSelect item. After delete it navigate to the next item. 
 		 * After add it navigates to the new added item if it is displayed in the tree. If not it navigates to the first item.

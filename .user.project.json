@@ -1,6 +1,25 @@
 {
   "run": [
     {
+      "filePath": "/webapp/test/flpSandbox.html",
+      "previewMode": 1,
+      "dataMode": 1,
+      "workspace": "withoutWorkspace",
+      "ui5ActiveVersion": null,
+      "ui5VerSource": null,
+      "isDefaultVersion": 0,
+      "urlParameters": [],
+      "hashParameter": "",
+      "backendSystem": [],
+      "urlParametersNotNeeded": false,
+      "_metadata": {
+        "id": 8520176,
+        "runnerId": "webapprunner",
+        "displayName": "Configuration",
+        "lastRunTimeStamp": 1553322126352
+      }
+    },
+    {
       "filePath": "/webapp/test/flpSandboxMockServer.html",
       "previewMode": 1,
       "dataMode": 1,
@@ -12,10 +31,10 @@
       "hashParameter": "",
       "backendSystem": [],
       "_metadata": {
-        "runnerId": "webapprunner",
         "id": 5459377,
+        "runnerId": "webapprunner",
         "displayName": "Run flpSandboxMockServer.html",
-        "lastRunTimeStamp": 1553309389375
+        "lastRunTimeStamp": 1553309970104
       }
     }
   ]

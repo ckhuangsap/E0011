@@ -296,6 +296,27 @@ sap.ui.define([
 			}.bind(this);
 			return this._deleteOneEntity(aPaths[0], fnSuccess, fnFailed);
 		},
+			formatterCountDate: function(value) {
+
+			if ((value != null) && (value != "0000-00-00"))
+
+			{
+
+				if (value) {
+
+					var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+						pattern: "yyyy/MM/dd"
+					});
+
+					return oDateFormat.format(new Date(value));
+
+				} else {
+					return value;
+				}
+
+			} else return "";
+
+		},
 
 		/**
 		 * Deletes the entity from the odata model

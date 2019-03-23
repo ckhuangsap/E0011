@@ -1,17 +1,94 @@
 <mvc:View controllerName="ZXDEGUI0011.controller.Detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
-	xmlns:footerbar="sap.ushell.ui.footerbar">
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:f="sap.ui.layout.form">
 	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" title="{i18n>detailTitle}"
 		busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}" xmlns:f="sap.ui.layout.form">
 		<semantic:content>
-			<ObjectHeader id="objectHeader" title="{Guino}" number="{ path: 'Basamt', formatter: '.formatter.currencyValue' }"></ObjectHeader>
+			<ObjectHeader id="objectHeader" title="{Name1}" number="{ parts: [ {path: 'Tolamt'}, {path: 'Waers'} ], type: 'sap.ui.model.type.Currency', formatOptions: { currencyCode: true } }"
+			numberState="{= ${Status} === 'E01'? 'Error' : 'Success' }" intro="{Guino} {Guifmt} {Status}">
+					<firstStatus>
+							<ObjectStatus title = "FI Doc" text="{ parts: [  {path:'Bukrs'}, {path:'Gjahr'}, {path: 'Belnr'}  ] }"/>
+						</firstStatus>
+						<secondStatus>
+							<ObjectStatus  title = "GUI date" text="{ parts: [
+															{path: 'Guidate'}
+														] ,  formatter: '.formatterCountDate' }"/>
+						</secondStatus>
+				
+			</ObjectHeader>
 			<IconTabBar id="iconTabBar" select="handleInconTabBarSelect" class="sapUiResponsiveContentPadding">
 				<items>
-					<IconTabFilter id="iconTabBarFilter1" icon="sap-icon://hint" tooltip="{i18n>detailIconTabBarInfo}" key="Data"></IconTabFilter>
-					<IconTabFilter id="iconTabBarFilter2" icon="sap-icon://attachment"  tooltip="{i18n>detailIconTabBarAttachments}" key="pdf" >
+					<IconTabFilter id="iconTabBarFilter1" icon="sap-icon://hint" tooltip="{i18n>detailIconTabBarInfo}" key="Data">
+						<f:SimpleForm id="SimpleFormDisplay354" editable="false" layout="ResponsiveGridLayout" title="Invoice" labelSpanXL="3" labelSpanL="3"
+							labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+							columnsL="1" columnsM="1" singleContainerFullSize="false">
+							<f:content>
+								<Label text="UUID" required="true"/>
+								<Input name="Uuid" id="Uuid_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
+									enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="false"
+									value="{ path: 'Uuid', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:50, nullable:false } }"/>
+								<Label text="Company Code" required="true"/>
+								<Input name="Bukrs" id="Bukrs_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									showValueHelp="true" valueHelpRequest="handleTableSelectDialogPress"
+									value="{ path: 'Bukrs', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:4, nullable:false } }"/>
+								<Label text="Fiscal Year" required="true"/>
+								<Input name="Gjahr" id="Gjahr_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Gjahr', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:4, nullable:false } }"/>
+								<Label text="Document Number" required="true"/>
+								<Input name="Belnr" id="Belnr_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Belnr', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:10, nullable:false } }"/>
+								<Label text="Line item" required="true"/>
+								<Input name="Buzei" id="Buzei_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="false"
+									value="{ path: 'Buzei', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:6, nullable:false } }"/>
+								<Label text="Business place"/>
+								<Input name="Bupla" id="Bupla_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Bupla', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:4, nullable:false } }"/>
+								<Label text="Invoice number" required="true"/>
+								<Input name="Guino" id="Guino_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Guino', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:14, nullable:false } }"/>
+								<Label text="GUI Format" required="true"/>
+								<Input name="Guifmt" id="Guifmt_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Guifmt', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:2, nullable:false } }"/>
+								<Label text="Posting Date" required="true"/>
+								<DatePicker name="Budat" value="{ path: 'Budat', type: 'sap.ui.model.type.Date', formatOptions: {pattern:'yyyy/MM/dd'}}" id="Budat_id"
+									type="DateTime" enabled="false" visible="true"/>
+								<Label text="GUI Date" required="true"/>
+								<DatePicker name="Guidate" value="{ path: 'Guidate', type: 'sap.ui.model.type.Date' , formatOptions: {pattern:'yyyy/MM/dd'}}"
+									id="Guidate_id" type="DateTime" enabled="false" visible="true"/>
+								<Label text="Customer" required="true"/>
+								<Input name="Kunnr" id="Kunnr_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Kunnr', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:10, nullable:false } }"/>
+								<Label text="Buyer Name"/>
+								<Input name="Name1" id="Name1_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Name1', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:70, nullable:false } }"/>
+								<Label text="LC Base"/>
+								<Input name="Basamt" id="Basamt_id" valueLiveUpdate="true" enabled="false" visible="true"
+									value="{ path: 'Basamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+								<Label text="LC Tax"/>
+								<Input name="Taxamt" id="Taxamt_id" valueLiveUpdate="true" enabled="false" visible="true"
+									value="{ path: 'Taxamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+								<Label text="Amount in LC"/>
+								<Input name="Tolamt" id="Tolamt_id" valueLiveUpdate="true" enabled="false" visible="false"
+									value="{ path: 'Tolamt', type: 'sap.ui.model.odata.type.Currency' , constraints:{ precision:24, scale:3, nullable:false } }"/>
+								<Label text="Currency"/>
+								<Input name="Waers" id="Waers_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Waers', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:5, nullable:false } }"/>
+								<Label text="Account Memo"/>
+								<Input name="Kverm" id="Kverm_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Kverm', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:30, nullable:false } }"/>
+								<Label text="Carrier ID 1"/>
+								<Input name="Carrierid1" id="Carrierid1_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Carrierid1', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:64, nullable:false } }"/>
+								<Label text="發票狀態"/>
+								<Input name="Status" id="Status_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement" enabled="false" visible="true"
+									value="{ path: 'Status', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:3, nullable:false } }"/>
+							</f:content>
+						</f:SimpleForm>
+					</IconTabFilter>
+					<IconTabFilter id="iconTabBarFilter2" icon="sap-icon://attachment" tooltip="{i18n>detailIconTabBarAttachments}" key="pdf">
 						<PDFViewer source="{detailView>/Source}" title="{detailView>/Title}" height="{detailView>/Height}">
-						<layoutData>
-							<FlexItemData growFactor="1" />
-						</layoutData>
+							<layoutData>
+								<FlexItemData growFactor="1"/>
+							</layoutData>
 						</PDFViewer>
 					</IconTabFilter>
 				</items>
@@ -21,7 +98,7 @@
 			<semantic:EditAction id="edit" press="onEdit"/>
 		</semantic:editAction>
 		<semantic:customFooterContent>
-			<Button enabled="true" id="deleteButton" press="onDelete" text="Delete"/>
+			<Button enabled="false" id="deleteButton" press="onDelete" text="Delete"/>
 		</semantic:customFooterContent>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
