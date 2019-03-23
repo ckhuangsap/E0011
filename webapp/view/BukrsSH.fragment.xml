@@ -1,0 +1,38 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog
+		noDataText="No Products Found"
+		title="Select Product"
+		search="handleSearch"
+		confirm="handleClose"
+		cancel="handleClose"
+		
+		items="{
+			path : '/AceBukrsSet',
+			sorter : {
+				path : 'Bukrs',
+				descending : false
+			}
+		}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier
+					title="{Bukrs}"
+					text="{Bukrs}" />
+			 	<Text text="{Text}" />
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="Bukrs" />
+				</header>
+			</Column>
+			<Column width="12em">
+				<header>
+					<Text text="Text" />
+				</header>
+			</Column>
+			 
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>
