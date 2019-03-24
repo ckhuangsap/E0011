@@ -27,8 +27,8 @@ sap.ui.define([
 				busy: false,
 				delay: 0,
 				Source: "",
-				Title:"Invoice",
-				Height:"600px"
+				Title: "Invoice",
+				Height: "600px"
 			});
 
 			this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -37,19 +37,19 @@ sap.ui.define([
 			this._oODataModel = this.getOwnerComponent().getModel();
 			this._oResourceBundle = this.getResourceBundle();
 		},
-		
-			handleInconTabBarSelect: function(oEvent){
+
+		handleInconTabBarSelect: function(oEvent) {
 			var sKey = oEvent.getParameter("key");
-		
+
 			var that = this;
-			
+
 			var oViewModel = this.getModel("detailView"),
 				sPath = oViewModel.getProperty("/sObjectPath"),
 				sObjectHeader = this._oODataModel.getProperty(sPath + "/Uuid");
-			
-		//	var oViewModel = this.getModel("detailView");
-			var oPath = "/sap/opu/odata/SAP/ZXDEGUI0011_UI5_SRV/PDFSet('" + sObjectHeader +"')/$value";
-			oViewModel.setProperty("/Source" , oPath);
+
+			//	var oViewModel = this.getModel("detailView");
+			var oPath = "/sap/opu/odata/SAP/ZXDEGUI0011_UI5_SRV/PDFSet('" + sObjectHeader + "')/$value";
+			oViewModel.setProperty("/Source", oPath);
 		},
 
 		/* =========================================================== */
@@ -214,9 +214,9 @@ sap.ui.define([
 				oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
 			oViewModel.setProperty("/shareSendEmailMessage",
 				oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
-				
-				var oIconTab = this.getView().byId("iconTabBar");
-				oIconTab.setSelectedKey('Data');
+
+			var oIconTab = this.getView().byId("iconTabBar");
+			oIconTab.setSelectedKey('Data');
 		},
 
 		/**
@@ -299,7 +299,7 @@ sap.ui.define([
 			}.bind(this);
 			return this._deleteOneEntity(aPaths[0], fnSuccess, fnFailed);
 		},
-			formatterCountDate: function(value) {
+		formatterCountDate: function(value) {
 
 			if ((value != null) && (value != "0000-00-00"))
 
@@ -321,40 +321,44 @@ sap.ui.define([
 
 		},
 		onMail: function() {
-	
+
 			var oModel = this.getModel();
-		
+
 			var oUuid = this.getView().byId("Uuid_id").getValue();
-		
+
+			oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
+			
+			});
+
 			var dialog = new Dialog({
 				title: 'Confirm',
 				type: 'Message',
-				content: new Text({ text: 'Are you sure you want to sent email?' }),
+				content: new Text({
+					text: 'Are you sure you want to sent email?'
+				}),
 				beginButton: new Button({
 					text: 'Yes',
-					press: function () {
-						
-						
+					press: function() {
+
 						oModel.callFunction("/Sent_Email", {
-								method: "POST",
-								urlParameters: {
-								Uuid: oUuid 
-								},
-								success: function(oData) {
-								},
-								error: function() {
-						
-								}
-							
-							});
-						
+							method: "POST",
+							urlParameters: {
+								Uuid: oUuid
+							},
+							success: function(oData) {},
+							error: function() {
+
+							}
+
+						});
+
 						MessageToast.show('Submit pressed!');
 						dialog.close();
 					}
 				}),
 				endButton: new Button({
 					text: 'No',
-					press: function () {
+					press: function() {
 						dialog.close();
 					}
 				}),
@@ -364,11 +368,8 @@ sap.ui.define([
 			});
 
 			dialog.open();
-	
 
-			
 		},
-
 
 		/**
 		 * Deletes the entity from the odata model
