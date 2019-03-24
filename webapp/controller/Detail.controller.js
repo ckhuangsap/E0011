@@ -327,7 +327,7 @@ sap.ui.define([
 			var oUuid = this.getView().byId("Uuid_id").getValue();
 
 			oModel.attachEventOnce("batchRequestCompleted", function(oEvent) {
-			
+			  //
 			});
 
 			var dialog = new Dialog({
