@@ -6,7 +6,16 @@
 					<ViewSettingsItem key="{Bukrs}" text="{Bukrs} {Text}"/>
 				</items>
 			</ViewSettingsFilterItem>
-			
+			<ViewSettingsFilterItem id="filterKunnr" text="Customer Code" key="Kunnr" items="{path: '/DebidsSet'}" multiSelect="true">
+				<items>
+					<ViewSettingsItem key="{Kunnr}" text="{Kunnr} {Bukrs} {Name1}"/>
+				</items>
+			</ViewSettingsFilterItem>
+			<ViewSettingsFilterItem id="filterGuino" text="Invoice number" key="Guino" items="{path: '/GuinoShSet'}" multiSelect="true">
+				<items>
+					<ViewSettingsItem key="{Guino}" text="{Guino}"/>
+				</items>
+			</ViewSettingsFilterItem>
 		</filterItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

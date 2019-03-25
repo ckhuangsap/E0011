@@ -161,6 +161,7 @@ sap.ui.define([
 				// forward compact/cozy style into Dialog
 				this._oViewSettingsDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
 			}
+			this._oViewSettingsDialog.setFilterSearchOperator(sap.m.StringFilterOperator.Contains);
 			this._oViewSettingsDialog.open();
 
 		},
@@ -205,6 +206,24 @@ sap.ui.define([
 				if (zCheck === true) {
 					aFilters.push(new Filter("Bukrs", FilterOperator.EQ, kData));
 					aCaptions.push("Company Code = " + kData);
+				}
+			}
+
+			var aKunnr = aContexts.Kunnr;
+			for (var kData2 in aKunnr) {
+				var zCheck2 = aKunnr[kData2];
+				if (zCheck2 === true) {
+					aFilters.push(new Filter("Kunnr", FilterOperator.EQ, kData2));
+					aCaptions.push("Customer = " + kData2);
+				}
+			}
+
+	var aGuino = aContexts.Guino;
+			for (var kData3 in aGuino) {
+				var zCheck3 = aGuino[kData3];
+				if (zCheck3 === true) {
+					aFilters.push(new Filter("Guino", FilterOperator.EQ, kData3));
+					aCaptions.push("Invoice = " + kData3);
 				}
 			}
 
