@@ -116,13 +116,15 @@ sap.ui.define([
 				
 					var lMsg = oData[i].message;
 					if (lMsg.search("EGUI_MSG:") >= 0) {
-						lMsg = lMsg.substr(9, 30);
-						sMsg = sMsg + "  " + lMsg;
+						lMsg = lMsg.substr(9, 50)  ;
+						sMsg = sMsg +   "<li>" + lMsg + "</li>";
 
 					} else {
 						lMsg = "";
 					}
 				}
+				sMsg = "<p><strong>Error list:</strong></p>\n" +
+				       "<ul>" + sMsg + "</ul>";
 
 				MessageBox.error(
 					"Update error: " + lMsg, {
