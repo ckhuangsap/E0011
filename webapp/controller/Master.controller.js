@@ -226,6 +226,16 @@ sap.ui.define([
 					aCaptions.push("Invoice = " + kData3);
 				}
 			}
+	
+			var aBupla = aContexts.Bupla;
+			for (var kData4 in aBupla) {
+				var zCheck4 = aBupla[kData4];
+				if (zCheck4 === true) {
+					aFilters.push(new Filter("Bupla", FilterOperator.EQ, kData4.substr(4,4)));
+					aFilters.push(new Filter("Bukrs", FilterOperator.EQ, kData4.substr(0,4)));
+					aCaptions.push("Business place = " + kData4);
+				}
+			}
 
 			this._oListFilterState.aFilter = aFilters;
 			this._updateFilterBar(aCaptions.join(", "));

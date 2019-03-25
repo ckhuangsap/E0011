@@ -16,6 +16,13 @@
 					<ViewSettingsItem key="{Guino}" text="{Guino}"/>
 				</items>
 			</ViewSettingsFilterItem>
+			
+				<ViewSettingsFilterItem id="filterBupla" text="Business plce" key="Bupla" items="{path: '/J1bbranhvSet'}" multiSelect="true">
+				<items>
+					<ViewSettingsItem key="{Bukrs}{Branch}" text="{Bukrs} {Branch}  {Name}"/>
+				</items>
+			</ViewSettingsFilterItem>
+			
 		</filterItems>
 	</ViewSettingsDialog>
 </core:FragmentDefinition>
