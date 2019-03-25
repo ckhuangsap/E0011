@@ -108,7 +108,7 @@ sap.ui.define([
 
 			var tt = sDetails.responseText;
 			var sMsg = "";
-		////	var xx = tt.search("EGUI_MSG:");
+		////	var xx = tt.search("EGUI_MSG:");//
 			if (tt.search("EGUI_MSG:") >= 0) {
 				var oMessage = sap.ui.getCore().getMessageManager();
 				var oData = oMessage.getMessageModel().getData();
