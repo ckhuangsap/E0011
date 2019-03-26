@@ -10,7 +10,7 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	"ZXDEGUI0011/model/grouper",
 	"ZXDEGUI0011/model/GroupSortState",
-		"sap/m/MessageToast"
+	"sap/m/MessageToast"
 ], function(BaseController, JSONModel, Filter, FilterOperator, GroupHeaderListItem, Device, formatter, MessageBox, grouper,
 	GroupSortState, MessageToast) {
 	"use strict";
@@ -218,7 +218,7 @@ sap.ui.define([
 				}
 			}
 
-	var aGuino = aContexts.Guino;
+			var aGuino = aContexts.Guino;
 			for (var kData3 in aGuino) {
 				var zCheck3 = aGuino[kData3];
 				if (zCheck3 === true) {
@@ -226,13 +226,13 @@ sap.ui.define([
 					aCaptions.push("Invoice = " + kData3);
 				}
 			}
-	
+
 			var aBupla = aContexts.Bupla;
 			for (var kData4 in aBupla) {
 				var zCheck4 = aBupla[kData4];
 				if (zCheck4 === true) {
-					aFilters.push(new Filter("Bupla", FilterOperator.EQ, kData4.substr(4,4)));
-					aFilters.push(new Filter("Bukrs", FilterOperator.EQ, kData4.substr(0,4)));
+					aFilters.push(new Filter("Bupla", FilterOperator.EQ, kData4.substr(4, 4)));
+					aFilters.push(new Filter("Bukrs", FilterOperator.EQ, kData4.substr(0, 4)));
 					aCaptions.push("Business place = " + kData4);
 				}
 			}
@@ -371,23 +371,23 @@ sap.ui.define([
 		 * @private
 		 */
 		_onMasterMatched: function() {
-	
+
 			this._oListSelector.oWhenListLoadingIsDone.then(
 				function(mParams) {
 					if (mParams.list.getMode() === "None") {
 						return;
 					}
 					this.getModel("appView").setProperty("/addEnabled", true);
-			      
-					if (!mParams.list.getSelectedItem() ) {
+
+					if (!mParams.list.getSelectedItem()) {
 						this.getRouter().navTo("object", {
-							Uuid: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Uuid")),
-							Bukrs: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Bukrs")),
-							Gjahr: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Gjahr")),
-							Belnr: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Belnr")),
-							Buzei: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Buzei"))
+							Uuid: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Uuid"))
+					//		Bukrs: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Bukrs")),
+					//		Gjahr: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Gjahr")),
+					//		Belnr: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Belnr")),
+					//		Buzei: encodeURIComponent(mParams.firstListitem.getBindingContext().getProperty("Buzei"))
 						}, true);
-					} 
+					}
 				}.bind(this),
 				function(mParams) {
 					if (mParams.error) {
@@ -407,11 +407,11 @@ sap.ui.define([
 		_showDetail: function(oItem) {
 			var bReplace = !Device.system.phone;
 			this.getRouter().navTo("object", {
-				Uuid: encodeURIComponent(oItem.getBindingContext().getProperty("Uuid")),
-				Bukrs: encodeURIComponent(oItem.getBindingContext().getProperty("Bukrs")),
-				Gjahr: encodeURIComponent(oItem.getBindingContext().getProperty("Gjahr")),
-				Belnr: encodeURIComponent(oItem.getBindingContext().getProperty("Belnr")),
-				Buzei: encodeURIComponent(oItem.getBindingContext().getProperty("Buzei"))
+				Uuid: encodeURIComponent(oItem.getBindingContext().getProperty("Uuid"))
+		//		Bukrs: encodeURIComponent(oItem.getBindingContext().getProperty("Bukrs")),
+		//		Gjahr: encodeURIComponent(oItem.getBindingContext().getProperty("Gjahr")),
+		//		Belnr: encodeURIComponent(oItem.getBindingContext().getProperty("Belnr")),
+		//		Buzei: encodeURIComponent(oItem.getBindingContext().getProperty("Buzei"))
 			}, bReplace);
 		},
 
@@ -494,47 +494,48 @@ sap.ui.define([
 			} else return "";
 
 		},
-		
-			onScan: function(){
-			var input = this.byId("searchField"); 
-		    
 
-		try{
+		onScan: function() {
+			var input = this.byId("searchField");
+
+			try {
 				window.parent.cordova.plugins.barcodeScanner.scan(
-				function(result) {
-				setTimeout(function() { MessageToast.show("We got a barcode\n" +
-                  "Result: " + result.text + "\n" +
-                  "Format: " + result.format + "\n" +
-                  "Cancelled: " + result.cancelled);                            
-		     }, 1000);
-        
-        					input.setValue(result.text);
-					input.fireSearch({
-						refreshButtonPressed: false,
-						query: result.text
-					});
-					
-				},
-				function(error) {
-					 MessageToast.show("Scanning failed: " + error);
-				},
-				    // options object
-		   {
-		        "preferFrontCamera" : false,
-		        "showFlipCameraButton" : true,
-		        "orientation" : "landscape"
-		    }
-				
-				
+					function(result) {
+						setTimeout(function() {
+							MessageToast.show("We got a barcode\n" +
+								"Result: " + result.text + "\n" +
+								"Format: " + result.format + "\n" +
+								"Cancelled: " + result.cancelled);
+						}, 1000);
+
+						input.setValue(result.text);
+						input.fireSearch({
+							refreshButtonPressed: false,
+							query: result.text
+						});
+
+					},
+					function(error) {
+						MessageToast.show("Scanning failed: " + error);
+					},
+					// options object
+					{
+						"preferFrontCamera": false,
+						"showFlipCameraButton": true,
+						"orientation": "landscape"
+					}
+
 				);
-	  }catch(err){
-	  	var error = true;
-	  	 MessageToast.show('error: ' + err.message);
-	  } 
-	  if (error !== true){  MessageToast.show("Start Scan", {
-				closeOnBrowserNavigation : false
-			}); }
-	   
+			} catch (err) {
+				var error = true;
+				MessageToast.show('error: ' + err.message);
+			}
+			if (error !== true) {
+				MessageToast.show("Start Scan", {
+					closeOnBrowserNavigation: false
+				});
+			}
+
 		},
 		/**
 		 * It navigates to the saved itemToSelect item. After delete it navigate to the next item. 

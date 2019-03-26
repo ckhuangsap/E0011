@@ -90,6 +90,21 @@ sap.ui.define([
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter([oFilter]);
 		},
+		
+		handleClose: function(oEvent) {
+			debugger;
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				var cc = aContexts.map(function(oContext) {
+					return oContext.getObject().Bukrs;
+				});
+
+				var input = this.byId("Bukrs_id");
+				input.setValue(cc);
+
+			}
+			
+		},
 
 		/* =========================================================== */
 		/* event handlers                                              */

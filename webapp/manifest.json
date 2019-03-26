@@ -108,7 +108,7 @@
 					]
 				},
 				{
-					"pattern": "ZXDGUI_S0011LS_UI5Set/{Uuid}/{Bukrs}/{Gjahr}/{Belnr}/{Buzei}",
+					"pattern": "ZXDGUI_S0011LS_UI5Set/{Uuid}",
 					"name": "object",
 					"target": [
 						"master",
