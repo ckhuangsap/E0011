@@ -34,7 +34,8 @@
 						value="{ path: 'Bupla', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:4, nullable:false } }"/>
 					<Label text="Invoice number" required="true"/>
 					<Input name="Guino" id="Guino_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"
-						enabled="{Guinoe}" visible="true"
+						enabled="{Guinoe}" visible="true"  showValueHelp="true"
+						valueHelpRequest="handleTableSelectDialogPressGuino"
 						value="{ path: 'Guino', type: 'sap.ui.model.odata.type.String' , constraints:{ maxLength:14, nullable:false } }"/>
 					<Label text="GUI Format" required="true"/>
 					<Input name="Guifmt" id="Guifmt_id" valueLiveUpdate="true" liveChange="_validateSaveEnablement"

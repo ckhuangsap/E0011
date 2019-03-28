@@ -1,0 +1,38 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog
+		noDataText="No Guino Found"
+		title="Select Guino"
+		search="handleSearchGuino"
+		confirm="handleCloseGuino"
+		cancel="handleCloseGuino"
+		
+		items="{
+			path : '/GuinoShSet',
+			sorter : {
+				path : 'Guino',
+				descending : false
+			}
+		}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier
+					title="{Guino}"
+					text="{Guino}" />
+			 	<Text text="{Guino}" />
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="Guino" />
+				</header>
+			</Column>
+			<Column width="12em">
+				<header>
+					<Text text="Guino" />
+				</header>
+			</Column>
+			 
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>
