@@ -111,8 +111,9 @@ sap.ui.define([
 						Quagga.stop();
 
 						var resultCode = that.getView().byId("searchField").getValue();
-						var strLength = resultCode.length - 1;
-						resultCode = resultCode.substring(0, strLength);
+					//	var strLength = resultCode.length - 1;
+					//	resultCode = resultCode.substring(0, strLength);
+					    resultCode = resultCode.replace(/\n/g, "");
 						that._oListFilterState.aFilter.push(new Filter("Uuid", FilterOperator.Contains, resultCode));
 						that._applyFilterSearch();
 
@@ -669,6 +670,8 @@ sap.ui.define([
 		},
 
 		onScan: function() {
+			
+			/*
 			var input = this.byId("searchField");
 
 			try {
@@ -708,7 +711,53 @@ sap.ui.define([
 					closeOnBrowserNavigation: false
 				});
 			}
-
+*/
+	if(!this._oScanDialog){
+				this._oScanDialog = new sap.m.Dialog({
+					title				: "Scan barcode",
+					contentWidth		: "640px",
+					contentHeight		: "480px",
+					horizontalScrolling	: false,
+					verticalScrolling	: false,
+					stretchOnPhone		: true,
+					content				: [new sap.ui.core.HTML({
+						id		: this.createId("scanContainer"),
+						content	: "<div />"
+					})],
+					endButton			: new sap.m.Button({
+						text	: "Cancel",
+						press	: function(oEvent){
+							this._oScanDialog.close();
+						}.bind(this)
+					}),
+					afterOpen			: function(){
+						// TODO: Investigate why Quagga.init needs to be called every time...possibly because DOM 
+						// element is destroyed each time dialog is closed
+						this._initQuagga(this.getView().byId("scanContainer").getDomRef()).done(function(){
+							// Initialisation done, start Quagga
+							
+							Quagga.start();
+						}).fail(function(oError){
+							// Failed to initialise, show message and close dialog...this should not happen as we have
+							// already checked for camera device ni /model/models.js and hidden the scan button if none detected
+							debugger;
+							MessageBox.error(oError.message.length ? oError.message : ("Failed to initialise Quagga with reason code " + oError.name),{
+								onClose: function(){
+									this._oScanDialog.close();
+								}.bind(this)
+							});
+						}.bind(this));
+					}.bind(this),
+					afterClose			: function(){
+						// Dialog closed, stop Quagga
+						Quagga.stop();
+					}
+				});	
+				
+				this.getView().addDependent(this._oScanDialog);
+			}
+			
+			this._oScanDialog.open();
 		},
 		/**
 		 * It navigates to the saved itemToSelect item. After delete it navigate to the next item. 
