@@ -24,10 +24,10 @@
 				</infoToolbar>
 			 
 			 	<headerToolbar >
-					<Toolbar visible="{device>/support/touch}">
+					<Toolbar visible="{device>/barcodeScanEnabled}">
 						<Title text="" level="H2"/>
 						<ToolbarSpacer/>
-						<Button tooltip="Scan barcode"  icon="sap-icon://camera" press="onScan"/>
+						<Button tooltip="Scan barcode"  icon="sap-icon://camera"  visible="{device>/barcodeScanEnabled}" press="onScanForValue"/>
 					
 					</Toolbar>
 				</headerToolbar>

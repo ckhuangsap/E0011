@@ -12,7 +12,8 @@
     "excludedFiles": [
       "test.html"
     ],
-    "buildRequired": true
+    "buildRequired": true,
+    "lastBuildDateTime": "Wed, 03 Apr 2019 03:13:03 GMT"
   },
   "generation": [
     {
@@ -34,8 +35,8 @@
     "resourceModelName": "i18n"
   },
   "mockpreview": {
-    "mockUri": "/sap/opu/odata/sap/ZXDEGUI0011_UI5_SRV",
-    "metadataFilePath": "",
+    "mockUri": "/sap/opu/odata/sap/ZXDEGUI0011_UI5_SRV/",
+    "metadataFilePath": "localService/metadata.xml",
     "loadJSONFiles": false,
     "loadCustomRequests": false,
     "mockRequestsFilePath": ""
@@ -51,5 +52,9 @@
     "notifyBeforePushLevel": "Error",
     "blockPush": false,
     "blockPushLevel": "Error"
+  },
+  "deploy": {
+    "destination": "S42",
+    "name": "ZXDEGUI0011"
   }
 }

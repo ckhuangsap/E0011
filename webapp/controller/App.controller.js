@@ -16,8 +16,8 @@ sap.ui.define([
 				busy: true,
 				delay: 0,
 				itemToSelect: null,
-				addEnabled: false
-
+				addEnabled: false,
+				scanResult:""
 			});
 			this.setModel(oViewModel, "appView");
 
@@ -37,7 +37,9 @@ sap.ui.define([
 
 			// apply content density mode to root view
 			this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());
-		}
+		},
+		
+		
 	});
 
 });
